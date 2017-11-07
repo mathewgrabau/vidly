@@ -46,7 +46,13 @@ namespace Vidly.Controllers
                 sortBy = "Name";
             }
 
-            return Content($"pageIndex={pageIndex}&sortBy={sortBy}");
+            var movies = new List<Movie>
+            {
+                new Movie {Id = 1, Name = "Shrek"},
+                new Movie {Id = 2, Name = "Star Wars"}
+            };
+
+            return View(movies);
         }
 
         [Route("movies/released/{year:regex(\\d{4})}/{month:regex(\\d{2}):range(1,12)}")]
