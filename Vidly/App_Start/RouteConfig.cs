@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -13,6 +14,14 @@ namespace Vidly
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            // Custom routing (most specific to most generic)
+            routes.MapRoute(
+                name: "MoviesByReleaseDate",
+                url: "movies/released/{year}/{month}",
+                defaults: new {controller = "Movies", action = "ByReleaseDate"},
+                // Added constratints for the month/year
+                constraints: new { year = @"\d{4}", month=@"\d{2}"}
+                );
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
