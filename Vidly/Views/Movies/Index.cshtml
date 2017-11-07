@@ -6,20 +6,27 @@
 
 <h2>Movies</h2>
 
-<table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>Movie</th>
-    </tr>
-    </thead>    
-    <tbody>
-    @foreach (var movie in Model)
-    {
+@if (Model.Count == 0)
+{
+    <text>We don't have any movies yet.</text>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
         <tr>
-            <td>
-                @movie.Name
-            </td>
+            <th>Movie</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>
+                    @movie.Name
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
