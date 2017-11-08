@@ -10,9 +10,11 @@ namespace Vidly.Models
     public class Customer
     {
         public int Id { get; set; }
+
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
+
         public bool IsSubscribedToNewsletter { get; set; }
 
         [DisplayName("Date of Birth")]
@@ -21,6 +23,7 @@ namespace Vidly.Models
         // Navigation property (can add the reference)
         public MembershipType MembershipType { get; set; }
 
+        [Display(Name="Membership Type")]
         public byte MembershipTypeId { get; set; } // Just the foreign key reference (by convention)
     }
 }
