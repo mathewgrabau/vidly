@@ -43,11 +43,6 @@ namespace Vidly.Controllers
             return View(viewModel);
         }
 
-        public ActionResult Edit(int id)
-        {
-            return Content("Id = " + id);
-        }
-
         // movies (optional parameters are nullable)
         public ActionResult Index(int? pageIndex, string sortBy)
         {
@@ -97,7 +92,24 @@ namespace Vidly.Controllers
             };
 
             return View("MovieForm", viewModel);
+        }
 
+        public ActionResult Edit(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new MovieFormViewModel
+            {
+                Genres = _context.Genres.ToList(),
+                Movie = movie
+            };
+
+            return View("MovieForm", viewModel);
         }
 
         public ActionResult Save(Movie movie)
@@ -107,6 +119,15 @@ namespace Vidly.Controllers
             {
                 movie.DateAdded = DateTime.Now; // Set the requirement property here.
                 _context.Movies.Add(movie);
+            }
+            else
+            {
+                var databaseMovie = _context.Movies.Single(m => m.Id == movie.Id);
+
+                databaseMovie.ReleaseDate = movie.ReleaseDate;
+                databaseMovie.GenreId = movie.GenreId;
+                databaseMovie.Name = movie.Name;
+                databaseMovie.NumberInStock = movie.NumberInStock;
             }
 
             _context.SaveChanges();
