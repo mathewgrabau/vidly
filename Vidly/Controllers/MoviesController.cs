@@ -25,12 +25,12 @@ namespace Vidly.Controllers
         // GET: Movies/Random
         public ActionResult Random()
         {
-            var movie = new Movie { Name = "Shrek" };
+            var movie = new Movie {Name = "Shrek"};
             var customers = new List<Customer>
             {
-                new Customer { Name = "Customer 1" },
-                new Customer { Name="Customer 2" },
-                new Customer { Name="Customer 3" },
+                new Customer {Name = "Customer 1"},
+                new Customer {Name = "Customer 2"},
+                new Customer {Name = "Customer 3"},
             };
 
             var viewModel = new RandomMovieViewModel
@@ -69,6 +69,23 @@ namespace Vidly.Controllers
         public ActionResult ByReleaseDate(int year, int month)
         {
             return Content($"{year}/{month}");
+        }
+
+        public ActionResult Details(int? id)
+        {
+            if (!id.HasValue)
+            {
+                return HttpNotFound();
+            }
+
+            var movie = _context.Movies.Include(m => m.Genre).FirstOrDefault(m => m.Id == id);
+
+            if (movie == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(movie);
         }
     }
 }
