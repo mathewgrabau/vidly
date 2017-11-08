@@ -52,21 +52,58 @@ namespace Vidly.Controllers
         {
             var membershipTypes = _context.MembershipTypes.ToList();
 
-            var viewModel = new NewCustomerViewModel
+            var viewModel = new CustomerFormViewModel
             {
                 MembershipTypes = membershipTypes
             };
 
-            return View(viewModel);
+            return View("CustomerForm", viewModel);
         }
 
+        // Hybrid action (either updates OR creates a new one, depending if the record exists).
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Save(Customer customer)
         {
-            _context.Customers.Add(customer);
+            if (customer.Id == 0)
+            {
+                // New customer
+                _context.Customers.Add(customer);
+            }
+            else
+            {
+                // Throws an exception, but desirable here.
+                var databaseCustomer = _context.Customers.Single(c => c.Id == customer.Id);
+
+                // Special controller method of updating, TryUpdateModel --> not the recommended type (might not want all updates based on priviledges, etc). The method allows everything and 
+                // is a security problem. Work-around is a white-listing of property names (not great)
+                databaseCustomer.Name = customer.Name;
+                databaseCustomer.BirthDate = customer.BirthDate;
+                databaseCustomer.MembershipTypeId = customer.MembershipTypeId;
+                databaseCustomer.IsSubscribedToNewsletter = customer.IsSubscribedToNewsletter;
+
+                // Could also use AutoMapper to perform the above update.
+            }
             _context.SaveChanges(); // Create the changes in the database now.
 
             return RedirectToAction("Index", "Customers");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return HttpNotFound();
+            }
+
+            var viewModel = new CustomerFormViewModel
+            {
+                Customer = customer,
+                MembershipTypes = _context.MembershipTypes.ToList()
+            };
+
+            return View("CustomerForm", viewModel);
         }
     }
 }
