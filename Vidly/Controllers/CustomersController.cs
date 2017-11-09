@@ -54,7 +54,8 @@ namespace Vidly.Controllers
 
             var viewModel = new CustomerFormViewModel
             {
-                MembershipTypes = membershipTypes
+                MembershipTypes = membershipTypes,
+                Customer =  new Customer()  // prevent the validation error
             };
 
             return View("CustomerForm", viewModel);

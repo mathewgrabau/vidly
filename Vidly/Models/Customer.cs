@@ -18,6 +18,7 @@ namespace Vidly.Models
         public bool IsSubscribedToNewsletter { get; set; }
 
         [DisplayName("Date of Birth")]
+        [Min18YearsOldToBeMember]
         public DateTime? BirthDate { get; set; }
 
         // Navigation property (can add the reference)
