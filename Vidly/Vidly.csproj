@@ -237,6 +237,10 @@
     <Compile Include="Migrations\201711072354341_SeedGenres.Designer.cs">
       <DependentUpon>201711072354341_SeedGenres.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711102157364_MovieValidationConstraints.cs" />
+    <Compile Include="Migrations\201711102157364_MovieValidationConstraints.Designer.cs">
+      <DependentUpon>201711102157364_MovieValidationConstraints.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -367,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711072354341_SeedGenres.resx">
       <DependentUpon>201711072354341_SeedGenres.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711102157364_MovieValidationConstraints.resx">
+      <DependentUpon>201711102157364_MovieValidationConstraints.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

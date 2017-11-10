@@ -88,7 +88,8 @@ namespace Vidly.Controllers
         {
             var viewModel = new MovieFormViewModel
             {
-                Genres = _context.Genres.ToList()
+                Genres = _context.Genres.ToList(),
+                Movie = new Movie() // Need this to pass the intial validation (the ID field will be checked to see if is there)
             };
 
             return View("MovieForm", viewModel);
@@ -112,8 +113,22 @@ namespace Vidly.Controllers
             return View("MovieForm", viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                // Generate instance of the view model for the validation.
+                var viewModel = new MovieFormViewModel
+                {
+                    Genres = _context.Genres.ToList(),
+                    Movie = movie
+                };
+
+                return View("MovieForm", viewModel);
+            }
+
             // Are we creating a new one?
             if (movie.Id == 0)
             {
