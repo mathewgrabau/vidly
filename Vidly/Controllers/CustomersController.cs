@@ -63,6 +63,7 @@ namespace Vidly.Controllers
 
         // Hybrid action (either updates OR creates a new one, depending if the record exists).
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)
