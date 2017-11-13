@@ -13,9 +13,9 @@ namespace Vidly.App_Start
         public MappingProfile()
         {
             // Ignore transfering the ID into there, ensuring there are no updates perfromed.
-            Mapper.CreateMap<Customer, CustomerDto>()
+            Mapper.CreateMap<Customer, CustomerDto>();
+            Mapper.CreateMap<CustomerDto, Customer>()
                 .ForMember(c => c.Id, opt => opt.Ignore());
-            Mapper.CreateMap<CustomerDto, Customer>();
 
             Mapper.CreateMap<MembershipType, MembershipTypeDto>();
             Mapper.CreateMap<MembershipTypeDto, MembershipType>();

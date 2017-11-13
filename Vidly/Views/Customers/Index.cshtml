@@ -27,7 +27,7 @@
     <script>
         $(document).ready(function () {
             // Init the datatables plugin
-            $("#customers").DataTable({
+            var customersGrid = $("#customers").DataTable({
                 ajax: {
                     "url": "/api/customers",
                     dataSrc: ""
@@ -44,7 +44,7 @@
                     },
                     {
                         data: "id",
-                        render: function(data) {
+                        render: function (data) {
                             return "<button class='btn-link js-delete' data-customer-id=" + data + ">Delete</button>";
                         }
                     }
@@ -65,7 +65,8 @@
                                     url: "/api/customers/" + button.attr("data-customer-id"),
                                     method: "DELETE",
                                     success: function () {
-                                        button.parents("tr").remove();
+                                        // Update the table now using the proper API
+                                        customersGrid.row(button.parents("tr")).remove().draw();
                                     }
                                 });
                             }
