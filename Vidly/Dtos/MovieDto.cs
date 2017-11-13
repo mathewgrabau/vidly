@@ -23,7 +23,7 @@ namespace Vidly.Dtos
         [Range(1, 20, ErrorMessage = "Number in stock must be between 1 and 20")]
         public int NumberInStock { get; set; }
 
-        public Genre Genre { get; set; }
+        public GenreDto Genre { get; set; }
 
         [Display(Name = "Genre")]
         [Required(ErrorMessage = "Genre is required")]  // using it here makes it work with the corresponding 
