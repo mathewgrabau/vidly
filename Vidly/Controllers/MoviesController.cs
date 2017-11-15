@@ -129,6 +129,7 @@ namespace Vidly.Controllers
             if (movie.Id == 0)
             {
                 movie.DateAdded = DateTime.Now; // Set the requirement property here.
+                movie.NumberAvailable = movie.NumberInStock;    // configure it to the be the number that are available right here.
                 _context.Movies.Add(movie);
             }
             else

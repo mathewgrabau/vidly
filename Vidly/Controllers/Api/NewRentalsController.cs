@@ -25,6 +25,12 @@ namespace Vidly.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateNewRentals(NewRentalsDto newRental)
         {
+            // No movies requested?
+            if (newRental.MovieIds.Count == 0)
+            {
+                return BadRequest("No movies specified");
+            }
+
             var customer = _context.Customers.SingleOrDefault(c => c.Id == newRental.CustomerId);
 
             if (customer == null)
@@ -32,18 +38,33 @@ namespace Vidly.Controllers.Api
                 return BadRequest("Invalid customer ID");
             }
 
-            var movies = _context.Movies.Where(m => newRental.MovieIds.Contains(m.Id));
+            var movies = _context.Movies.Where(m => newRental.MovieIds.Contains(m.Id)).ToList();
+
+            if (movies.Count != newRental.MovieIds.Count)
+            {
+                return BadRequest("One or more MovieIds is invalid");
+            }
 
             foreach (var movie in movies)
             {
-                var rental = _context.Rentals.Add(new Rental
+                if (movie.NumberAvailable > 0)
                 {
-                    Customer = customer,
-                    Movie = movie,
-                    DateRented = DateTime.Now
-                });
+                    // Update the movie now
+                    movie.NumberAvailable--;
 
-                _context.Rentals.Add(rental);
+                    var rental = _context.Rentals.Add(new Rental
+                    {
+                        Customer = customer,
+                        Movie = movie,
+                        DateRented = DateTime.Now
+                    });
+
+                    _context.Rentals.Add(rental);
+                }
+                else
+                {
+                    return BadRequest("No copies of movie " + movie.Id + " are available");
+                }
             }
 
             _context.SaveChanges();
