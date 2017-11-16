@@ -11,6 +11,12 @@ namespace Vidly.Controllers.Api
     public class NewRentalsController : ApiController
     {
         private ApplicationDbContext _context;
+
+        public NewRentalsController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
