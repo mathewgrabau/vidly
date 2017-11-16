@@ -1,0 +1,23 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "New Rental";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Rental</h2>
+
+@* This form is being used as an AJAX form instead of it. *@
+<form>
+    <div class="form-group">
+        <label>Customer</label>
+        <input type="text" value="" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Movie</label>
+        <input type="text" value="" class="form-control"/>
+    </div>
+    
+    <button class="btn btn-primary">Submit</button>
+</form>
