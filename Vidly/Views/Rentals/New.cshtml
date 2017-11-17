@@ -10,17 +10,25 @@
 <form>
     <div class="form-group">
         <label for="customers">Customer</label>
-        <input id="customers" name="customers" type="text" value="" class="form-control" />
+        <div class="tt-container">
+            <input id="customers" name="customers" type="text" value="" class="form-control" />
+        </div>
     </div>
 
     <div class="form-group">
         <label>Movie</label>
-        <input id="movie" name="movies" type="text" value="" class="form-control" size=""/>
+        <div class="tt-container">
+            <input id="movie" name="movies" type="text" value="" class="form-control" size=""/>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <ul id="movies" class="list-group"></ul>        
+        </div>
     </div>
     
     
-    
-    <ul id="movies" class="list-group"></ul>
     
     <button class="btn btn-primary">Submit</button>
 </form>
@@ -86,7 +94,7 @@
                  source: movies
             }).on("typeahead:select",
                 function (e, movie) {
-                    $("#movies").append("<li>" + movie.name + "</li>");
+                    $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
                     $("#movie").typeahead("val", "");
 
                     // Store the movie to send ti o
