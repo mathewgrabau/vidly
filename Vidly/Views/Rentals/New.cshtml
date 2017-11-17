@@ -41,7 +41,10 @@
                 }
             });
 
-            var vm = {}; // viewmodel starting out here.
+            // A view model for the script/client code side of the house.
+            var vm = {
+                movieIds: []
+            };
 
             //$("#customer").typeahead({
             //        //minLength: 3,
@@ -84,6 +87,10 @@
             }).on("typeahead:select",
                 function (e, movie) {
                     $("#movies").append("<li>" + movie.name + "</li>");
+                    $("#movie").typeahead("val", "");
+
+                    // Store the movie to send ti o
+                    vm.movieIds.push(movie.id);
                 });
         });
     </script>
