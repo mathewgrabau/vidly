@@ -11,7 +11,7 @@
     <div class="form-group">
         <label for="customers">Customer</label>
         <div class="tt-container">
-            <input id="customers" name="customers" type="text" value="" class="form-control" />
+            <input id="customers" name="customers" data-rule-validCustomer="true" required type="text" value="" class="form-control" />
         </div>
     </div>
 
@@ -35,6 +35,7 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(function() {
             var customers = new Bloodhound({
@@ -86,7 +87,32 @@
                 remote: {
                     url: "/api/movies?query=%QUERY",
                     wildcard: '%QUERY'
-                    
+                }
+            });
+
+            // Implement the 
+            $.validator.addMethod("validCustomer",
+                function() {
+                    return vm.customerId && vm.customerId !== 0;
+                });
+
+            $("#newRentalForm").validate({
+                messages: {
+                    customers: "Select a valid customer"
+                },
+                submitHandler: function (element, e) {
+                    console.log(arguments);
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "/api/NewRentals",
+                        type: "POST",
+                        data: vm
+                    }).done(function() {
+                        toastr.success("Rentals successfully recorded");
+                    }).fail(function() {
+                        toastr.fail("Failed to record the rentals.");
+                    });
                 }
             });
 
@@ -104,20 +130,6 @@
                     // Store the movie to send ti o
                     vm.movieIds.push(movie.id);
                 });
-
-            $("#newRentalForm").submit(function(e) {
-                e.preventDefault();
-
-                $.ajax({
-                    url: "/api/NewRentals",
-                    type: "POST",
-                    data: vm
-                }).done(function() {
-                    toastr.success("Rentals successfully recorded");
-                }).fail(function() {
-                    toastr.fail("Failed to record the rentals.");
-                });
             });
-        });
     </script>
 }
