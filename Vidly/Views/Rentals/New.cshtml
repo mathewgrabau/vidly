@@ -12,13 +12,14 @@
 
     <div class="form-group">
         <label>Movie</label>
-        <input id="movies" type="text" value="" class="form-control" size=""/>
+        <input id="movies" name="movies" type="text" value="" class="form-control" size=""/>
     </div>
     
     <div class="form-group">
-        <label>Customer</label>
-        <input id="customer" type="text" value="" class="form-control" />
+        <label for="customers">Customer</label>
+        <input id="customers" name="customers" type="text" value="" class="form-control" />
     </div>
+    
     
     <button class="btn btn-primary">Submit</button>
 </form>
@@ -32,7 +33,10 @@
                 queryTokenizer: Bloodhound.tokenizers.whitespace,
                 remote: {
                     url: "/api/customers?query=%QUERY",
-                    wildcard: '%QUERY'
+                    wildcard: '%QUERY',
+                    filter: function (data) {
+                        return data;
+                    }
                 }
             });
 
@@ -54,7 +58,7 @@
             //        console.log(arguments);
             //    });
 
-            $("#customer").typeahead(null, {
+            $("#customers").typeahead(null, {
                     name: 'customers',
                     display: 'name',
                     source: customers
@@ -67,6 +71,7 @@
                 remote: {
                     url: "/api/movies?query=%QUERY",
                     wildcard: '%QUERY'
+                    
                 }
             });
 
