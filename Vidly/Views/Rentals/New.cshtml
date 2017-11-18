@@ -80,7 +80,7 @@
                     return vm.movieIds && vm.movieIds.length > 0;
                 });
 
-            $("#newRentalForm").validate({
+            var validator = $("#newRentalForm").validate({
                 messages: {
                     customers: "Select a valid customer",
                     movies: "Select at least one movie"
@@ -94,6 +94,16 @@
                         data: vm
                     }).done(function() {
                         toastr.success("Rentals successfully recorded");
+                        $("#customers").typeahead("val", "");
+                        $("#movie").typeahead("val", "");
+                        $("#movies").empty();
+
+                        vm = {
+                            movieIds: []
+                        };
+
+                        // Valdation reset
+                        validator.resetForm();
                     }).fail(function() {
                         toastr.fail("Failed to record the rentals.");
                     });
