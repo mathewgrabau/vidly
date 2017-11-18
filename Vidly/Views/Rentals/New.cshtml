@@ -18,7 +18,7 @@
     <div class="form-group">
         <label>Movie</label>
         <div class="tt-container">
-            <input id="movie" name="movies" type="text" value="" class="form-control" size=""/>
+            <input id="movie" name="movies" data-rule-movieSelected="true" type="text" value="" class="form-control" size=""/>
         </div>
     </div>
     
@@ -55,22 +55,6 @@
                 movieIds: []
             };
 
-            //$("#customer").typeahead({
-            //        //minLength: 3,
-            //        highlight: true
-            //    },
-            //    {
-            //        name: 'customers',
-            //        display: 'name',
-            //        source: customers
-            //    }).on("typeahead:select",
-            //    function(e, customer) {
-            //        vm.customerId = customer.id;
-            //    }).on("typeahead:asyncreceive",
-            //    function(e, query, name) {
-            //        console.log(arguments);
-            //    });
-
             $("#customers").typeahead(null, {
                     name: 'customers',
                     display: 'name',
@@ -90,18 +74,18 @@
                 }
             });
 
-            // Implement the 
-            $.validator.addMethod("validCustomer",
+            // Implement the movies validation (must pick a movie)
+            $.validator.addMethod("movieSelected",
                 function() {
-                    return vm.customerId && vm.customerId !== 0;
+                    return vm.movieIds && vm.movieIds.length > 0;
                 });
 
             $("#newRentalForm").validate({
                 messages: {
-                    customers: "Select a valid customer"
+                    customers: "Select a valid customer",
+                    movies: "Select at least one movie"
                 },
                 submitHandler: function (element, e) {
-                    console.log(arguments);
                     e.preventDefault();
 
                     $.ajax({
@@ -127,7 +111,7 @@
                     $("#movies").append("<li class='list-group-item'>" + movie.name + "</li>");
                     $("#movie").typeahead("val", "");
 
-                    // Store the movie to send ti o
+                    // Store the movies to send to the server
                     vm.movieIds.push(movie.id);
                 });
             });
